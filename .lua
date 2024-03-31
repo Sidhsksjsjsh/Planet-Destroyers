@@ -2,7 +2,7 @@ local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sidhsksjs
 local wndw = lib:Window("VIP Turtle Hub V4")
 local T1 = wndw:Tab("Main")
 local T2 = wndw:Tab("Capsules")
---local T3 = wndw:Tab("Upgrades")
+local T3 = wndw:Tab("Upgrades")
 
 local workspace = game:GetService("Workspace")
 local user = {
@@ -37,7 +37,7 @@ getChild(workspace.Scripts.Islands,function(i)
     getChild(i.Capsules,function(v)
         getChild(v,function(array)
             if array.Name ~= "StandInfo" then
-              table.insert(var.capsule.table,v.Name)
+              table.insert(var.capsule.table,array.Name)
             end
         end)
     end)
@@ -92,6 +92,15 @@ T2:Toggle("Open capsule",false,function(value)
     end
 end)
 
---[[T2:Dropdown("Select capsule",var.capsule.table,function(value)
-    var.capsule.selected = value
-end)]]
+T2:Dropdown("Select upgrade",var.upgrade.table,function(value)
+    var.upgrade.selected = value
+end)
+
+T2:Toggle("Auto upgrade",false,function(value)
+    var.upgrade.toggle = value
+    while wait() do
+      if var.upgrade.toggle == false then break end
+      lib:notify(lib:ColorFonts(":1672: missing argument #2 (expected string, got nil)","Red"),10)
+      var.upgrade.toggle = false
+    end
+end)
