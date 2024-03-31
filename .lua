@@ -23,7 +23,8 @@ local var = {
     table = {"Gems Multiplier","Coins Multiplier","Luck Multiplier","XP Multiplier","Pistol Damage","Units Equip"}, -- without spaces
     toggle = false,
     selected = "null"
-  }
+  },
+  online = false
 }
 
 
@@ -32,6 +33,15 @@ local function getChild(path,funct)
     funct(v)
   end
 end
+
+--[[
+local args = {
+    [1] = 1
+}
+
+game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(unpack(args))
+
+]]
 
 getChild(workspace.Scripts.Islands,function(i)
     getChild(i.Capsules,function(v)
@@ -72,6 +82,25 @@ T1:Toggle("Auto bring orbs",false,function(value)
               i.Position = user.self.Character.HumanoidRootPart.Position
           end)
       end)
+    end
+end)
+
+T1:Toggle("Auto claim online rewards",false,function(value)
+    var.online = value
+    while wait() do
+      if var.online == false then break end
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(1)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(2)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(3)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(4)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(5)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(6)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(7)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(8)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(9)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(10)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(11)
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(12)
     end
 end)
 
