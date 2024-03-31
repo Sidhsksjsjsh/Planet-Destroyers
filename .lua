@@ -24,7 +24,9 @@ local var = {
     toggle = false,
     selected = "null"
   },
-  online = false
+  online = false,
+  level = false,
+  spin = false
 }
 
 
@@ -43,15 +45,7 @@ game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardServ
 
 ]]
 
-getChild(workspace.Scripts.Islands,function(i)
-    getChild(i.Capsules,function(v)
-        getChild(v,function(array)
-            if array.Name ~= "StandInfo" then
-              table.insert(var.capsule.table,array.Name)
-            end
-        end)
-    end)
-end)
+lib:AddTable(game:GetService("ReplicatedStorage").Assets.Capsules,var.capsule.table)
 
 T1:Toggle("Auto shoot planet",false,function(value)
     var.shoot = value
@@ -101,6 +95,22 @@ T1:Toggle("Auto claim online rewards",false,function(value)
       game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(10)
       game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(11)
       game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["ClaimPlaytimeReward"]:InvokeServer(12)
+    end
+end)
+
+T1:Toggle("Auto next level",false,function(value)
+    var.level = value
+    while wait() do
+      if var.level == false then break end
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["IslandService"]["RF"]["nextLevel"]:InvokeServer()
+    end
+end)
+
+T1:Toggle("Auto spin",false,function(value)
+    var.spin = value
+    while wait() do
+      if var.spin == false then break end
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["RewardService"]["RF"]["spin"]:InvokeServer()
     end
 end)
 
