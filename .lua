@@ -20,7 +20,7 @@ local var = {
     selected = "null"
   },
   upgrade = {
-    table = {"Gems Multiplier","Coins Multiplier","Luck Multiplier","XP Multiplier","Pistol Damage","Units Equip"},
+    table = {"Gems Multiplier","Coins Multiplier","Luck Multiplier","XP Multiplier","Pistol Damage","Units Equip"}, -- without spaces
     toggle = false,
     selected = "null"
   }
@@ -92,11 +92,11 @@ T2:Toggle("Open capsule",false,function(value)
     end
 end)
 
-T2:Dropdown("Select upgrade",var.upgrade.table,function(value)
+T3:Dropdown("Select upgrade",var.upgrade.table,function(value)
     var.upgrade.selected = value
 end)
 
-T2:Toggle("Auto upgrade",false,function(value)
+T3:Toggle("Auto upgrade",false,function(value)
     var.upgrade.toggle = value
     while wait() do
       if var.upgrade.toggle == false then break end
