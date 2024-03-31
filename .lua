@@ -27,7 +27,9 @@ local var = {
   online = false,
   level = false,
   spin = false,
-  shoot_signal = false
+  shoot_signal = false,
+  shoot_click = false,
+  shoot_act = false
 }
 
 
@@ -67,7 +69,49 @@ T1:Toggle("Auto shoot planet with firesignal()",false,function(value)
       if var.shoot_signal == false then break end
       getChild(workspace.Scripts.Islands,function(v)
           getChild(v.Planet,function(a)
-              firesignal(a.MouseButton1Down)
+                getChild(a,function(i)
+                    if i:IsA("ClickDetector") then
+                      firesignal(i.MouseClick)
+                    else
+                      lib:notify(lib:ColorFonts("Missing ClickDetector","Red"),10)
+                    end
+                end)
+          end)
+      end)
+    end
+end)
+
+T1:Toggle("Auto shoot planet with :Activated()",false,function(value)
+    var.shoot_act = value
+    while wait() do
+      if var.shoot_act == false then break end
+      getChild(workspace.Scripts.Islands,function(v)
+          getChild(v.Planet,function(a)
+                getChild(a,function(i)
+                    if i:IsA("ClickDetector") then
+                      i:Activated()
+                    else
+                      lib:notify(lib:ColorFonts("Missing ClickDetector","Red"),10)
+                    end
+                end)
+          end)
+      end)
+    end
+end)
+
+T1:Toggle("Auto shoot planet with :MouseClick()",false,function(value)
+    var.shoot_click = value
+    while wait() do
+      if var.shoot_click == false then break end
+      getChild(workspace.Scripts.Islands,function(v)
+          getChild(v.Planet,function(a)
+                getChild(a,function(i)
+                    if i:IsA("ClickDetector") then
+                      i:MouseClick()
+                    else
+                      lib:notify(lib:ColorFonts("Missing ClickDetector","Red"),10)
+                    end
+                end)
           end)
       end)
     end
