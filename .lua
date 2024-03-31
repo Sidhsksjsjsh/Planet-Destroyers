@@ -59,6 +59,20 @@ T1:Toggle("Auto shoot planet",false,function(value)
     end
 end)
 
+if user.self.Name == "Rivanda_Cheater" then
+T1:Toggle("Auto shoot planet with firesignal()",false,function(value)
+    var.shoot = value
+    while wait() do
+      if var.shoot == false then break end
+      getChild(workspace.Scripts.Islands,function(v)
+          getChild(v.Planet,function(a)
+              firesignal(a.MouseButton1Down)
+          end)
+      end)
+    end
+end)
+end
+
 T1:Toggle("Auto rebirth",false,function(value)
     var.rebirth = value
     while wait() do
