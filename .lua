@@ -100,7 +100,11 @@ T3:Toggle("Auto upgrade",false,function(value)
     var.upgrade.toggle = value
     while wait() do
       if var.upgrade.toggle == false then break end
-      lib:notify(lib:ColorFonts(":1672: missing argument #2 (expected string, got nil)","Red"),10)
-      var.upgrade.toggle = false
+      if var.upgrade.selected ~= "null" then
+        game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["UpgradeService"]["RF"]["Upgrade"]:InvokeServer(var.upgrade.selected:gsub(" ",""))
+      else
+        lib:notify(lib:ColorFonts("BRO THE DROPDOWN IS NIL, PLS CHOOSE ONE 💀😭","Red"),10)
+        var.upgrade.toggle = false
+      end
     end
 end)
