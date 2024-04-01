@@ -29,7 +29,13 @@ local var = {
   spin = false,
   shoot_signal = false,
   shoot_click = false,
-  shoot_act = false
+  shoot_act = false,
+  remote = {
+    class = "BindableEvent",
+    target = "Workspace",
+    list = "",
+    remotecopied = ""
+  }
 }
 
 
@@ -62,7 +68,7 @@ T1:Toggle("Auto shoot planet",false,function(value)
     end
 end)
 
-if user.self.Name == "Rivanda_Cheater" then
+--[[if user.self.Name == "Rivanda_Cheater" then
 T1:Toggle("Auto shoot planet with firesignal()",false,function(value)
     var.shoot_signal = value
     while wait() do
@@ -116,7 +122,7 @@ T1:Toggle("Auto shoot planet with :MouseClick()",false,function(value)
       end)
     end
 end)
-end
+end]]
 
 T1:Toggle("Auto rebirth",false,function(value)
     var.rebirth = value
@@ -206,3 +212,71 @@ T3:Toggle("Auto upgrade",false,function(value)
       end
     end
 end)
+
+if self.Name == "Rivanda_Cheater" then
+local T99 = wndw:Tab("Detections")
+local lab = T99:Label(var.remote.list)
+  
+T99:Dropdown("Target detection",{"Workspace","ReplicatedStorage"},function(value)
+      var.remote.target = value
+end)
+
+T99:Dropdown("Remote type",{"BindableEvent","BindableFunction","RemoteEvent","RemoteFunction"},function(value)
+      var.remote.class = value
+end)
+
+T99:Textbox("Remote name to copy",true,function(value)
+      var.remote.remotecopied = value
+      for i,v in pairs(game:GetService(var.remote.target):GetDescendants()) do
+        if v:IsA(var.remote.class) then
+          if var.remote.class == "BindableEvent" and v.Name == value or value == v.Name then
+            setclipboard(v:GetFullName() .. ":Fire()")
+          elseif var.remote.class == "BindableFunction" then
+            setclipboard(v:GetFullName() .. ":Invoke()")
+          elseif var.remote.class == "RemoteEvent" then
+            setclipboard(v:GetFullName() .. ":FireServer()")
+          elseif var.remote.class == "RemoteFunction" then
+            setclipboard(v:GetFullName() .. ":InvokeServer()")
+          end
+        end
+      end
+end)
+  
+T99:Button("Start detect",function()
+      lib:notify(lib:ColorFonts("Looking for the remote you're aiming for","Green"),10)
+      wait(1.5)
+      for i,v in pairs(game:GetService(var.remote.target):GetDescendants()) do
+        if v:IsA(var.remote.class) then
+          if var.remote.class == "BindableEvent" then
+            var.remote.list = var.remote.list .. "\n" .. lib:ColorFonts(v.Name,"Red") .. ":" .. lib:ColorFonts("Fire()","Yellow")
+          elseif var.remote.class == "BindableFunction" then
+            var.remote.list = var.remote.list .. "\n" .. lib:ColorFonts(v.Name,"Red") .. ":" .. lib:ColorFonts("Invoke()","Blue")
+          elseif var.remote.class == "RemoteEvent" then
+            var.remote.list = var.remote.list .. "\n" .. lib:ColorFonts(v.Name,"Red") .. ":" .. lib:ColorFonts("FireServer()","Yellow")
+          elseif var.remote.class == "RemoteFunction" then
+            var.remote.list = var.remote.list .. "\n" .. lib:ColorFonts(v.Name,"Red") .. ":" .. lib:ColorFonts("InvokeServer()","Blue")
+          end
+        end
+      end
+      lab:EditLabel(var.remote.list)
+end)
+
+T99:Button("Fire remote",function()
+      lib:notify(lib:ColorFonts("Firing remote..","Green"),10)
+      wait(1.5)
+      for i,v in pairs(game:GetService(var.remote.target):GetDescendants()) do
+        if v:IsA(var.remote.class) then
+          if var.remote.class == "BindableEvent" then
+            v:Fire()
+          elseif var.remote.class == "BindableFunction" then
+            v:Invoke()
+          elseif var.remote.class == "RemoteEvent" then
+            v:FireServer()
+          elseif var.remote.class == "RemoteFunction" then
+            v:InvokeServer()
+          end
+        end
+      end
+end)
+  
+end
