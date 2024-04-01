@@ -3,6 +3,7 @@ local wndw = lib:Window("VIP Turtle Hub V4")
 local T1 = wndw:Tab("Main")
 local T2 = wndw:Tab("Capsules")
 local T3 = wndw:Tab("Upgrades")
+local T4 = wndw:Tab("Units")
 
 local workspace = game:GetService("Workspace")
 local user = {
@@ -35,6 +36,13 @@ local var = {
     target = "Workspace",
     list = "",
     remotecopied = ""
+  },
+  units = {
+    gold = false,
+    rb = false,
+    table = workspace["Scripts"]["Units"][user.self.Name],
+    usename = true,
+    name = "null"
   }
 }
 
@@ -213,11 +221,51 @@ T3:Toggle("Auto upgrade",false,function(value)
     end
 end)
 
+T4:Textbox("Insert units ID",true,function(value)
+    var.units.name = value
+end)
+
+T4:Toggle("Equipped units",true,function(value)
+    var.units.usename = value
+end)
+
+local gt = T4:Toggle("Auto gold units",false,function(value) -- var.units.table[math.random(1,#var.units.table)]
+    var.units.gold = value
+    while wait() do
+      if var.units.gold == false then break end
+      if var.units.usename == true then
+        if var.units.name ~= "null" then
+          game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["UnitService"]["RF"]["Craft"]:InvokeServer({[var.units.name] = true,[var.units.name] = true,[var.units.name] = true,[var.units.name] = true,[var.units.name] = true},1)
+        else
+          lib:notify(lib:ColorFonts("PET ID IS NIL!! PLS INSERT IT!!","Red"),10)
+        end
+      else
+        game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["UnitService"]["RF"]["Craft"]:InvokeServer({[var.units.table[math.random(1,#var.units.table)]] = true,[var.units.table[math.random(1,#var.units.table)]] = true,[var.units.table[math.random(1,#var.units.table)]] = true,[var.units.table[math.random(1,#var.units.table)]] = true,[var.units.table[math.random(1,#var.units.table)]] = true},1)
+      end
+    end
+end)
+
+local rbt = T4:Toggle("Auto rainbow units",false,function(value)
+    var.units.rb = value
+    while wait() do
+      if var.units.rb == false then break end
+      if var.units.usename == true then
+        if var.units.name ~= "null" then
+          game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["UnitService"]["RF"]["Craft"]:InvokeServer({[var.units.name] = true,[var.units.name] = true,[var.units.name] = true,[var.units.name] = true,[var.units.name] = true},2)
+        else
+          lib:notify(lib:ColorFonts("PET ID IS NIL!! PLS INSERT IT!!","Red"),10)
+        end
+      else
+        game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["UnitService"]["RF"]["Craft"]:InvokeServer({[var.units.table[math.random(1,#var.units.table)]] = true,[var.units.table[math.random(1,#var.units.table)]] = true,[var.units.table[math.random(1,#var.units.table)]] = true,[var.units.table[math.random(1,#var.units.table)]] = true,[var.units.table[math.random(1,#var.units.table)]] = true},2)
+      end
+    end
+end)
+
 if user.self.Name == "Rivanda_Cheater" then
 local T99 = wndw:Tab("Detections")
 local lab = T99:Label(var.remote.list)
   
-T99:Dropdown("Target detection",{"Workspace","ReplicatedStorage"},function(value)
+T99:Dropdown("Target detection",{"Workspace","ReplicatedStorage","Players"},function(value)
       var.remote.target = value
 end)
 
@@ -230,13 +278,13 @@ T99:Textbox("Remote name to copy",true,function(value)
       for i,v in pairs(game:GetService(var.remote.target):GetDescendants()) do
         if v:IsA(var.remote.class) and (string.sub(string.lower(v.Name),1,string.len(value))) == string.lower(value) then
           if var.remote.class == "BindableEvent" then
-            setclipboard(v:GetFullName() .. ":Fire()")
+            setclipboard("game." .. v:GetFullName() .. ":Fire()")
           elseif var.remote.class == "BindableFunction" then
-            setclipboard(v:GetFullName() .. ":Invoke()")
+            setclipboard("game." .. v:GetFullName() .. ":Invoke()")
           elseif var.remote.class == "RemoteEvent" then
-            setclipboard(v:GetFullName() .. ":FireServer()")
+            setclipboard("game." .. v:GetFullName() .. ":FireServer()")
           elseif var.remote.class == "RemoteFunction" then
-            setclipboard(v:GetFullName() .. ":InvokeServer()")
+            setclipboard("game." .. v:GetFullName() .. ":InvokeServer()")
           end
         end
       end
@@ -244,6 +292,7 @@ end)
   
 T99:Button("Start detect",function()
       lib:notify(lib:ColorFonts("Looking for the remote you're aiming for","Green"),10)
+      var.remote.list = ""
       wait(1.5)
       for i,v in pairs(game:GetService(var.remote.target):GetDescendants()) do
         if v:IsA(var.remote.class) then
@@ -280,3 +329,14 @@ T99:Button("Fire remote",function()
 end)
   
 end
+
+lib:runtime(function()
+    var.units.table = workspace["Scripts"]["Units"][user.self.Name]
+    if var.units.usename == true then
+      gt:EditText("Auto gold units [ EQUIPPED UNITS ]")
+      rbt:EditText("Auto rainbow units [ EQUIPPED UNITS ]")
+    else
+      gt:EditText("Auto gold units [ SELECTED ID ]")
+      rbt:EditText("Auto rainbow units [ SELECTED ID ]")
+    end
+end)
