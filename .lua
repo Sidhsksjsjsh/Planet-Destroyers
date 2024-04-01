@@ -213,7 +213,7 @@ T3:Toggle("Auto upgrade",false,function(value)
     end
 end)
 
-if self.Name == "Rivanda_Cheater" then
+if user.self.Name == "Rivanda_Cheater" then
 local T99 = wndw:Tab("Detections")
 local lab = T99:Label(var.remote.list)
   
@@ -226,10 +226,10 @@ T99:Dropdown("Remote type",{"BindableEvent","BindableFunction","RemoteEvent","Re
 end)
 
 T99:Textbox("Remote name to copy",true,function(value)
-      var.remote.remotecopied = value
+      lib:notify(lib:ColorFonts("Copied to the clipboard","Green"),10)
       for i,v in pairs(game:GetService(var.remote.target):GetDescendants()) do
-        if v:IsA(var.remote.class) then
-          if var.remote.class == "BindableEvent" and v.Name == value or value == v.Name then
+        if v:IsA(var.remote.class) and (string.sub(string.lower(v.Name),1,string.len(value))) == string.lower(value) then
+          if var.remote.class == "BindableEvent" then
             setclipboard(v:GetFullName() .. ":Fire()")
           elseif var.remote.class == "BindableFunction" then
             setclipboard(v:GetFullName() .. ":Invoke()")
