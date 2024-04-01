@@ -327,8 +327,11 @@ T99:Button("Fire remote",function()
         end
       end
 end)
-  
-end
+
+T99:Toggle("Open 2nd exploit",false,function(value)
+      lib:synapse(value)
+end)
+end --lib:synapse(bool)
 
 lib:runtime(function()
     var.units.table = workspace["Scripts"]["Units"][user.self.Name]
