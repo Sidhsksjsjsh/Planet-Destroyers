@@ -331,7 +331,21 @@ end)
 T99:Toggle("Open 2nd exploit",false,function(value)
       lib:synapse(value)
 end)
-end --lib:synapse(bool)
+
+local T100 = wndw:Tab("Function Log")
+local flog = T100:Label("")
+local slog = false
+  
+T100:Button("Start logging",function()
+      if slog == false then
+        slog = true
+        lib:SpyFunction(function(log)
+            flog:EditLabel(log)
+        end)
+      end
+end)
+  
+end --lib:synapse(bool) lib:SpyFunction(function(log)
 
 lib:runtime(function()
     var.units.table = workspace["Scripts"]["Units"][user.self.Name]
